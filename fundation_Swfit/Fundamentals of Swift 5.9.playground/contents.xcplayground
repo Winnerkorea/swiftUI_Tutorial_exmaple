@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8" standalone="yes"?>
+<playground version='6.0' target-platform='ios' display-mode='rendered'>
+    <pages>
+        <page name='Introduction'/>
+        <page name='Comments and Print Statements'/>
+        <page name='Types and Variables - Mutability'/>
+        <page name='Blocks, Scope and Spacing'/>
+        <page name='Optionals'/>
+        <page name='Arithmetic Operators'/>
+        <page name='If-Else and Comparison Operators'/>
+        <page name='Logical Operators'/>
+        <page name='Other Operators'/>
+        <page name='Strings and Interpolation'/>
+        <page name='Enumerations and Switch'/>
+        <page name='Functions'/>
+        <page name='Arrays'/>
+        <page name='Dictionaries'/>
+        <page name='Loops'/>
+        <page name='Named Types'/>
+        <page name='Structures'/>
+        <page name='Classes'/>
+        <page name='Properties'/>
+        <page name='Access Control'/>
+    </pages>
+</playground>
