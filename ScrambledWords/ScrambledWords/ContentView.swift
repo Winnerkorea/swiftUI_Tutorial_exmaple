@@ -6,7 +6,6 @@
 //
 
 import SwiftUI
-
 //Hashable
 
 struct ContentView: View {
@@ -24,6 +23,13 @@ struct ContentView: View {
     // 1. 유저가 추측한 글자들을 저장할 빈 배열을 @State로 선언합니다.
     @State private var guessedLetters: [LetterModel] = []
     
+    // 2. 뷰의 표시 여부를 제어할 두 개의 @State 변수를 선언함
+    @State private var showSuccess = false
+    @State private var showFailuer = false
+    
+    // 3.  Score을 표시하기
+    @State private var score: Int = 0
+
     let correctAnswer = "ORANGE"
     
     var body: some View {
@@ -62,7 +68,7 @@ struct ContentView: View {
                     .overlay(RoundedRectangle(cornerRadius: 20)
                         .stroke(Color.border, lineWidth: 2))
                     
-                    Text("Score : 0")
+                    Text("Score : \(score)")
                         .foregroundStyle(.white)
                         .font(.system(size: 15))
                         .padding(.top)
@@ -80,20 +86,33 @@ struct ContentView: View {
                                         //  onTapGesture 내부, 문자를 옮기는 로직 직후
                                         if guessedLetters.count == letters.count{
                                             // 이 시점에서 정답/오답을 평가합니다.
-//                                            var guessedAnswer = ""
-//                                            
-//                                            for letter in guessedLetters{
-//                                                
-//                                                guessedAnswer += letter.text
-//                                            }
+                                            //                                            var guessedAnswer = ""
+                                            //
+                                            //                                            for letter in guessedLetters{
+                                            //
+                                            //                                                guessedAnswer += letter.text
+                                            //                                            }
                                             
                                             let guessedAnswer = guessedLetters.map{$0.text}.joined()
                                             
                                             if guessedAnswer == correctAnswer{
                                                 print("정답입니다.")
+                                                showSuccess = true
+                                                
+                                                score += 1
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                    showSuccess = false
+                                                }
+                                                
                                             } else {
                                                 print("오답입니다.")
-                                              
+                                                showFailuer = true
+                                                
+                                                DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
+                                                    showFailuer = false
+                                                }
+    
                                             }
                                         }
                                     }
@@ -102,17 +121,36 @@ struct ContentView: View {
                     }
                 }
                 
-                VStack {
-                    Image("close")
-                        .resizable()
-                        .frame(width: 100, height: 100)
+                
+                if showSuccess{
+                    VStack {
+                        Image("tick")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                    }
+                    .frame(maxWidth:.infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.3))
                 }
-                .frame(maxWidth:.infinity, maxHeight: .infinity)
-                .background(Color.black.opacity(0.3))
+                
+                if showFailuer{
+                    VStack {
+                        Image("close")
+                            .resizable()
+                            .frame(width: 100, height: 100)
+                    }
+                    .frame(maxWidth:.infinity, maxHeight: .infinity)
+                    .background(Color.black.opacity(0.3))
+                }
+                
+                
+                
+                
+                
+                
             }
         }
-     
-
+        
+        
     }
 }
 
