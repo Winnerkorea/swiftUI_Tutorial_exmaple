@@ -29,8 +29,51 @@ struct ContentView: View {
     
     // 3.  Score을 표시하기
     @State private var score: Int = 0
-
+    
+    // 4. 
+    
     let correctAnswer = "ORANGE"
+    
+    // 모든 질문을 담을 배열 (상수)
+    
+    let questions: [QuestionModel] = [
+        //1 번 문제: Orange
+        QuestionModel(
+            image:"ORANGE",
+            answer: "ORANGE",
+            scrambledLetters: [
+                LetterModel(id: 0, text: "O"),
+                LetterModel(id: 1, text: "R"),
+                LetterModel(id: 2, text: "A"),
+                LetterModel(id: 3, text: "N"),
+                LetterModel(id: 4, text: "G"),
+                LetterModel(id: 5, text: "E")]
+            
+        ),
+        // 2번 문제 : BANANA
+        QuestionModel(
+            image: "BANANA",
+            answer: "BANANA",
+            scrambledLetters: [
+                LetterModel(id: 0, text: "B"),
+                LetterModel(id: 1, text: "A"),
+                LetterModel(id: 2, text: "N"),
+                LetterModel(id: 3, text: "A"),
+                LetterModel(id: 4, text: "N"),
+                LetterModel(id: 5, text: "A")
+            ]),
+        // 3번 문제 : APPLE
+        QuestionModel(
+            image: "APPLE",
+            answer: "APPLE",
+            scrambledLetters: [
+                LetterModel(id: 0, text: "A"),
+                LetterModel(id: 1, text: "P"),
+                LetterModel(id: 2, text: "P"),
+                LetterModel(id: 3, text: "L"),
+                LetterModel(id: 4, text: "E")
+            ])
+    ]
     
     var body: some View {
         GeometryReader { proxy in
@@ -112,7 +155,7 @@ struct ContentView: View {
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     showFailuer = false
                                                 }
-    
+                                                
                                             }
                                         }
                                     }

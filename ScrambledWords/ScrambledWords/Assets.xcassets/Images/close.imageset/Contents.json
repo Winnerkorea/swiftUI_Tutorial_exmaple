@@ -1,8 +1,17 @@
 {
   "images" : [
     {
-      "filename" : "close.png",
-      "idiom" : "universal"
+      "filename" : "remove.png",
+      "idiom" : "universal",
+      "scale" : "1x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "2x"
+    },
+    {
+      "idiom" : "universal",
+      "scale" : "3x"
     }
   ],
   "info" : {
