@@ -20,6 +20,7 @@ struct SheetView: View {
         
         Button("탭해서 닫기(@Enviroment)") {
             //            dismiss()
+            showSheet = false
         }
         .frame(width: 300, height: 50)
         .background(Color.blue)
