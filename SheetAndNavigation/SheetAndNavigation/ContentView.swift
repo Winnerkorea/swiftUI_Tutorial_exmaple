@@ -10,34 +10,36 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var showSheet = false
-    @State private var backgroundColor = Color.blue
-    
+    @State private var person: Person?
     
     
     var body: some View {
-        ZStack {
+        VStack(alignment: .leading){
+            Button(action: {
+                showSheet = true
+            }, label: {
+                Text("Boolean으로 시트 표시")
+            })
             
-            backgroundColor
-                .ignoresSafeArea()
+            Divider()
             
-            VStack {
-                Button("Sheet") {
-                    print("Click The Button")
-                    showSheet = true
-                }
-                .frame(maxWidth:300, maxHeight: 50)
-                .background(Color(.yellow))
-                .foregroundStyle(.white)
-                .fontWeight(.bold)
-            }
+            Button(action: {
+                person = Person(name: "홍길동")
+            }, label: {
+                Text("Item으로 시트 표시")
+            })
+           Spacer()
+           
         }
-        .background(backgroundColor)
-        .sheet(isPresented: $showSheet, onDismiss: {
-            // 이 코드는 시트가 닫힌 후에 실행됩니다.
-            backgroundColor = .yellow
-        }, content: {
+        .padding(.horizontal)
+        .padding(.top, 40)
+        .sheet(isPresented: $showSheet, content: {
             SheetView(showSheet: $showSheet)
         })
+        .sheet(item: $person) { person in
+            SheetItemView(person: person)
+        }
+        
     }
 }
 
