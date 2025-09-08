@@ -11,15 +11,6 @@ import SwiftUI
 struct ContentView: View {
     //    @State private var letters = ["O", "R","A","N","G","E"]
     // Alert Message Variables
-    
-    @State private var letters:[LetterModel] = [
-        LetterModel(id: 0, text: "O"),
-        LetterModel(id: 1, text: "R"),
-        LetterModel(id: 2, text: "A"),
-        LetterModel(id: 3, text: "N"),
-        LetterModel(id: 4, text: "G"),
-        LetterModel(id: 5, text: "E")
-    ]
     // 1. 유저가 추측한 글자들을 저장할 빈 배열을 @State로 선언합니다.
     @State private var guessedLetters: [LetterModel] = []
     
@@ -30,16 +21,16 @@ struct ContentView: View {
     // 3.  Score을 표시하기
     @State private var score: Int = 0
     
-    // 4. 
-    
-    let correctAnswer = "ORANGE"
+    // 4. 현재 활성화된 질문이 무엇인지 추적하려면 현재 질문의 인덱스를 저장할 별수
+    @State private var currentQuestionIndex = 0
+    //    let correctAnswer = "ORANGE"
     
     // 모든 질문을 담을 배열 (상수)
     
-    let questions: [QuestionModel] = [
+    @State private var questions: [QuestionModel] = [
         //1 번 문제: Orange
         QuestionModel(
-            image:"ORANGE",
+            image:"orange",
             answer: "ORANGE",
             scrambledLetters: [
                 LetterModel(id: 0, text: "O"),
@@ -52,7 +43,7 @@ struct ContentView: View {
         ),
         // 2번 문제 : BANANA
         QuestionModel(
-            image: "BANANA",
+            image: "banana",
             answer: "BANANA",
             scrambledLetters: [
                 LetterModel(id: 0, text: "B"),
@@ -64,7 +55,7 @@ struct ContentView: View {
             ]),
         // 3번 문제 : APPLE
         QuestionModel(
-            image: "APPLE",
+            image: "apple",
             answer: "APPLE",
             scrambledLetters: [
                 LetterModel(id: 0, text: "A"),
@@ -84,7 +75,7 @@ struct ContentView: View {
                 VStack {
                     VStack {
                         Spacer()
-                        Image("orange")
+                        Image(questions[currentQuestionIndex].image)
                             .resizable()
                             .frame(width: 200, height: 200)
                             .clipShape(RoundedRectangle(cornerRadius: 20))
@@ -99,7 +90,7 @@ struct ContentView: View {
                                     .onTapGesture {
                                         if  let index = guessedLetters.firstIndex(of: guessedLetter)
                                         {guessedLetters.remove(at: index)
-                                            letters[guessedLetter.id].text = guessedLetter.text
+                                            questions[currentQuestionIndex].scrambledLetters[guessedLetter.id].text = guessedLetter.text
                                         }
                                     }
                             }
@@ -117,28 +108,21 @@ struct ContentView: View {
                         .padding(.top)
                     
                     HStack{
-                        
-                        ForEach(Array(letters.enumerated()), id: \.1){
+                        // letter 배열이 아닌, 현재 활성화된 질문의 ScrambeldLetters 배열을 순회해야 한다.
+                        ForEach(Array(questions[currentQuestionIndex].scrambledLetters.enumerated()), id: \.1){
                             (index, letter) in
                             LetterView(letter: letter)
                                 .onTapGesture {
                                     // 글자가 비어있지 않을 때만 로직을 실행
                                     if !letter.text.isEmpty{
                                         guessedLetters.append(letter)
-                                        letters[index].text = ""
+                                        questions[currentQuestionIndex].scrambledLetters[index].text = ""
                                         //  onTapGesture 내부, 문자를 옮기는 로직 직후
-                                        if guessedLetters.count == letters.count{
-                                            // 이 시점에서 정답/오답을 평가합니다.
-                                            //                                            var guessedAnswer = ""
-                                            //
-                                            //                                            for letter in guessedLetters{
-                                            //
-                                            //                                                guessedAnswer += letter.text
-                                            //                                            }
+                                        if guessedLetters.count == questions[currentQuestionIndex].scrambledLetters.count{
                                             
                                             let guessedAnswer = guessedLetters.map{$0.text}.joined()
                                             
-                                            if guessedAnswer == correctAnswer{
+                                            if guessedAnswer == questions[currentQuestionIndex].answer{
                                                 print("정답입니다.")
                                                 showSuccess = true
                                                 
@@ -146,6 +130,16 @@ struct ContentView: View {
                                                 
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     showSuccess = false
+                                                    guessedLetters.removeAll()
+                                                    
+                                                    
+                                                    if currentQuestionIndex == questions.count - 1 {
+                                                        // 다음 문제로 인텍스로 이동
+                                                        
+                                                    } else {
+                                                        currentQuestionIndex += 1
+                                                        
+                                                    }
                                                 }
                                                 
                                             } else {
@@ -154,9 +148,19 @@ struct ContentView: View {
                                                 
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     showFailuer = false
+                                                    
+                                                    if currentQuestionIndex == questions.count - 1 {
+                                                        
+                                                    } else {
+                                                        currentQuestionIndex += 1
+                                                    }
+                                                    
+                                                    guessedLetters.removeAll()
+                                                    currentQuestionIndex += 1 // 다음 문제롤 인텍스 이동.
                                                 }
                                                 
                                             }
+                                            guessedLetters.removeAll()
                                         }
                                     }
                                 }
@@ -185,14 +189,8 @@ struct ContentView: View {
                     .background(Color.black.opacity(0.3))
                 }
                 
-                
-                
-                
-                
-                
             }
         }
-        
         
     }
 }
