@@ -11,14 +11,15 @@ import SwiftUI
 struct SheetView: View {
     // MARK: - Sheet Close 방법
     // 1. @Environment 사용하기
-    @Environment(\.dismiss) var dismiss
-
+    //    @Environment(\.dismiss) var dismiss
+    // 2. @Binding사용하기
+    @Binding var showSheet: Bool
     
     var body: some View {
         Text("Tutorial Sheet Views")
         
         Button("탭해서 닫기(@Enviroment)") {
-            dismiss()
+            //            dismiss()
         }
         .frame(width: 300, height: 50)
         .background(Color.blue)
@@ -29,5 +30,5 @@ struct SheetView: View {
 }
 
 #Preview {
-    SheetView()
+    SheetView(showSheet: .constant(true))
 }

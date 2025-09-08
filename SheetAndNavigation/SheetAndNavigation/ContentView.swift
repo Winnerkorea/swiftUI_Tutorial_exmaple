@@ -20,13 +20,13 @@ struct ContentView: View {
                 .imageScale(.large)
                 .foregroundStyle(.tint)
             Text("Hello, world!")
-            Button("Sheet") {
-                print("Click The Button")
-                showSheet = true
-            }
+//            Button("Sheet") {
+//                print("Click The Button")
+//                showSheet = true
+//            }
         }
         .sheet(isPresented: $showSheet, content: {
-            SheetView()
+            SheetView(showSheet: $showSheet)
         })
         .padding()
     }
