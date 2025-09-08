@@ -16,7 +16,7 @@ struct GameView: View {
     
     // 2. 뷰의 표시 여부를 제어할 두 개의 @State 변수를 선언함
     @State private var showSuccess = false
-    @State private var showFailuer = false
+    @State private var showFailure = false
     
     // 3.  Score을 표시하기
     @State private var score: Int = 0
@@ -25,46 +25,12 @@ struct GameView: View {
     @State private var currentQuestionIndex = 0
     //    let correctAnswer = "ORANGE"
     
+    // 5. GameView에서 ScoreView에 모달 띄우기 위한 상태 변수 추가
+    @State private var showFinalScore = false
+    
     // 모든 질문을 담을 배열 (상수)
     
-    @State private var questions: [QuestionModel] = [
-        //1 번 문제: Orange
-        QuestionModel(
-            image:"orange",
-            answer: "ORANGE",
-            scrambledLetters: [
-                LetterModel(id: 0, text: "O"),
-                LetterModel(id: 1, text: "R"),
-                LetterModel(id: 2, text: "A"),
-                LetterModel(id: 3, text: "N"),
-                LetterModel(id: 4, text: "G"),
-                LetterModel(id: 5, text: "E")]
-            
-        ),
-        // 2번 문제 : BANANA
-        QuestionModel(
-            image: "banana",
-            answer: "BANANA",
-            scrambledLetters: [
-                LetterModel(id: 0, text: "B"),
-                LetterModel(id: 1, text: "A"),
-                LetterModel(id: 2, text: "N"),
-                LetterModel(id: 3, text: "A"),
-                LetterModel(id: 4, text: "N"),
-                LetterModel(id: 5, text: "A")
-            ]),
-        // 3번 문제 : APPLE
-        QuestionModel(
-            image: "apple",
-            answer: "APPLE",
-            scrambledLetters: [
-                LetterModel(id: 0, text: "A"),
-                LetterModel(id: 1, text: "P"),
-                LetterModel(id: 2, text: "P"),
-                LetterModel(id: 3, text: "L"),
-                LetterModel(id: 4, text: "E")
-            ])
-    ]
+    @State private var questions: [QuestionModel] = QuestionModel.generateQuestions()
     
     var body: some View {
         GeometryReader { proxy in
@@ -130,11 +96,10 @@ struct GameView: View {
                                                 
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
                                                     showSuccess = false
-                                                    guessedLetters.removeAll()
                                                     
                                                     
                                                     if currentQuestionIndex == questions.count - 1 {
-                                                        // 다음 문제로 인텍스로 이동
+                                                        showFinalScore = true
                                                         
                                                     } else {
                                                         currentQuestionIndex += 1
@@ -144,19 +109,17 @@ struct GameView: View {
                                                 
                                             } else {
                                                 print("오답입니다.")
-                                                showFailuer = true
+                                                showFailure = true
                                                 
                                                 DispatchQueue.main.asyncAfter(deadline: .now() + 1) {
-                                                    showFailuer = false
+                                                    showFailure = false
                                                     
                                                     if currentQuestionIndex == questions.count - 1 {
-                                                        
+                                                        showFinalScore = true
                                                     } else {
                                                         currentQuestionIndex += 1
                                                     }
                                                     
-                                                    guessedLetters.removeAll()
-                                                    currentQuestionIndex += 1 // 다음 문제롤 인텍스 이동.
                                                 }
                                                 
                                             }
@@ -179,7 +142,7 @@ struct GameView: View {
                     .background(Color.black.opacity(0.3))
                 }
                 
-                if showFailuer{
+                if showFailure{
                     VStack {
                         Image("close")
                             .resizable()
@@ -190,10 +153,21 @@ struct GameView: View {
                 }
                 
             }
+            .sheet(isPresented: $showFinalScore) {
+                // 여기에 재시작 로직 추가 예정
+                questions = QuestionModel.generateQuestions()
+                currentQuestionIndex = 0
+                score = 0
+            } content: {
+                // 여기에 보여줄 뷰를 지정
+                ScoreView(score: score, quesionCount: questions.count)
+            }
         }
         
     }
+    
 }
+
 
 #Preview {
     GameView()
