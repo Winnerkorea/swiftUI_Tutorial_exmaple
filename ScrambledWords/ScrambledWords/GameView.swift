@@ -8,7 +8,7 @@
 import SwiftUI
 //Hashable
 
-struct ContentView: View {
+struct GameView: View {
     //    @State private var letters = ["O", "R","A","N","G","E"]
     // Alert Message Variables
     // 1. 유저가 추측한 글자들을 저장할 빈 배열을 @State로 선언합니다.
@@ -196,7 +196,7 @@ struct ContentView: View {
 }
 
 #Preview {
-    ContentView()
+    GameView()
 }
 
 struct LetterView: View {
