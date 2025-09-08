@@ -10,25 +10,34 @@ import SwiftUI
 struct ContentView: View {
     
     @State private var showSheet = false
-    
+    @State private var backgroundColor = Color.blue
     
     
     
     var body: some View {
-        VStack {
-            Image(systemName: "globe")
-                .imageScale(.large)
-                .foregroundStyle(.tint)
-            Text("Hello, world!")
-            Button("Sheet") {
-                print("Click The Button")
-                showSheet = true
+        ZStack {
+            
+            backgroundColor
+                .ignoresSafeArea()
+            
+            VStack {
+                Button("Sheet") {
+                    print("Click The Button")
+                    showSheet = true
+                }
+                .frame(maxWidth:300, maxHeight: 50)
+                .background(Color(.yellow))
+                .foregroundStyle(.white)
+                .fontWeight(.bold)
             }
         }
-        .sheet(isPresented: $showSheet, content: {
+        .background(backgroundColor)
+        .sheet(isPresented: $showSheet, onDismiss: {
+            // 이 코드는 시트가 닫힌 후에 실행됩니다.
+            backgroundColor = .yellow
+        }, content: {
             SheetView(showSheet: $showSheet)
         })
-        .padding()
     }
 }
 
