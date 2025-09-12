@@ -8,45 +8,29 @@ import SwiftUI
 
 struct SignUpUsernameEmailView: View {
     
-    @State private var username = ""
-    @State private var email = ""
-    @State private var password = ""
-    @State private var alertTitle = ""
-    @State private var alertMessage = ""
-    @State private var showAlert = false
-    @State private var showNextPage = false
-    
+
+    @StateObject private var viewModel = SignUpViewModel()
+
     var body: some View {
         NavigationStack {
             VStack(alignment: .leading,spacing: 10) {
                 Text("Username")
                     .font(.system(size: 15, weight: .semibold))
-                TextField("Username", text: $username)
+                TextField("Username", text: $viewModel.username)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .textFieldStyle(.roundedBorder)
                     .padding(.bottom)
                 Text("Email")
                     .font(.system(size: 15, weight: .semibold))
-                TextField("Email", text: $email)
+                TextField("Email", text: $viewModel.email)
                     .autocorrectionDisabled()
                     .textInputAutocapitalization(.never)
                     .textFieldStyle(.roundedBorder)
                     .padding(.bottom)
                 Button {
-                    guard !username.isEmpty else {
-                        alertTitle = "Username Required"
-                        alertMessage = "Please provide a username"
-                        showAlert = true
-                        return
-                    }
-                    guard !email.isEmpty else {
-                        alertTitle = "Email Required"
-                        alertMessage = "Please provide a email"
-                        showAlert = true
-                        return
-                    }
-                    showNextPage = true
+                    viewModel.validate()
+                   
                 } label: {
                     Text("Next")
                         .foregroundStyle(.white)
@@ -58,10 +42,18 @@ struct SignUpUsernameEmailView: View {
                 .clipShape(RoundedRectangle(cornerRadius: 6))
                 .padding(.top)
             }
-            .navigationDestination(isPresented: $showNextPage, destination: {
-                
+            .navigationDestination(isPresented: $viewModel.showNextPage, destination: {
+                SignUpPasswordView(viewModel:viewModel)
             })
             .padding()
+            .alert(viewModel.alertTitle, isPresented: $viewModel.showAlertInUsernameEmailView) {
+                Button("Complete", action: {
+                    
+                })
+            } message: {
+                Text(viewModel.alertMessage)
+            }
+
         }
     }
 }

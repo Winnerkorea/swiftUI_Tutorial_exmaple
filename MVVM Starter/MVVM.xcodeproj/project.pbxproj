@@ -7,7 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		2073489B2B64DF1C003F754E /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2073489A2B64DF1C003F754E /* SignUpViewModel.swift */; };
+		053156F42E70EA3E00744528 /* SignUpViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 053156F32E70EA3E00744528 /* SignUpViewModel.swift */; };
 		20C5003D2B62D6FF00EA38F2 /* MVVMApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5003C2B62D6FF00EA38F2 /* MVVMApp.swift */; };
 		20C5003F2B62D6FF00EA38F2 /* SignUpUsernameEmailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20C5003E2B62D6FF00EA38F2 /* SignUpUsernameEmailView.swift */; };
 		20C500412B62D70100EA38F2 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20C500402B62D70100EA38F2 /* Assets.xcassets */; };
@@ -16,7 +16,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		2073489A2B64DF1C003F754E /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
+		053156F32E70EA3E00744528 /* SignUpViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpViewModel.swift; sourceTree = "<group>"; };
 		20C500392B62D6FF00EA38F2 /* MVVM.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = MVVM.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		20C5003C2B62D6FF00EA38F2 /* MVVMApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MVVMApp.swift; sourceTree = "<group>"; };
 		20C5003E2B62D6FF00EA38F2 /* SignUpUsernameEmailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SignUpUsernameEmailView.swift; sourceTree = "<group>"; };
@@ -39,7 +39,7 @@
 		207348992B64DEE1003F754E /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
-				2073489A2B64DF1C003F754E /* SignUpViewModel.swift */,
+				053156F32E70EA3E00744528 /* SignUpViewModel.swift */,
 			);
 			path = ViewModels;
 			sourceTree = "<group>";
@@ -109,7 +109,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1500;
+				LastUpgradeCheck = 1640;
 				TargetAttributes = {
 					20C500382B62D6FF00EA38F2 = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -154,7 +154,7 @@
 				20C5003F2B62D6FF00EA38F2 /* SignUpUsernameEmailView.swift in Sources */,
 				20C5004B2B62DAA700EA38F2 /* SignUpPasswordView.swift in Sources */,
 				20C5003D2B62D6FF00EA38F2 /* MVVMApp.swift in Sources */,
-				2073489B2B64DF1C003F754E /* SignUpViewModel.swift in Sources */,
+				053156F42E70EA3E00744528 /* SignUpViewModel.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -196,6 +196,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -259,6 +260,7 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -288,7 +290,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MVVM/Preview Content\"";
-				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -317,7 +318,6 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"MVVM/Preview Content\"";
-				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;

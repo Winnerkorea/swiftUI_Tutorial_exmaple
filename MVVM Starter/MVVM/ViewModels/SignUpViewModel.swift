@@ -2,31 +2,26 @@
 //  SignUpUsernameEmailViewModel.swift
 //  MVVM
 //
-//  Created by Gwinyai Nyatsoka on 27/1/2024.
+//  Created by Baba on 9/10/25.
 //
 
 import Foundation
 import SwiftUI
 
-class SignUpViewModel: ObservableObject {
+class SignUpViewModel:ObservableObject {
     
     @Published var username = ""
     @Published var email = ""
     @Published var password = ""
+    @Published var confirmPassword = ""
     @Published var alertTitle = ""
     @Published var alertMessage = ""
+    @Published var showNextPage = false
     @Published var showAlertInUsernameEmailView = false
     @Published var showAlertInPasswordView = false
-    @Published var showNextPage = false
-    @Published var confirmPassword = ""
     
-    func handlePasswordViewAlert() {
-        if password == confirmPassword {
-            showNextPage = false
-        }
-    }
     
-    func confirmSignup() {
+    func confirmSignUP(){
         if password == confirmPassword {
             alertTitle = "Success!"
             alertMessage = "Please check your email for the activation link."
@@ -39,12 +34,22 @@ class SignUpViewModel: ObservableObject {
         showAlertInPasswordView = true
     }
     
-    func validate() {
-        guard validateEmail() && validateUsername() else { return }
+    func handlePasswordViewAlert(){
+        if password == confirmPassword {
+            showNextPage = false
+        } else {
+            showAlertInPasswordView = false
+        }
+    }
+    
+    func validate(){
+        guard validateEmail() && validateUserName() else {
+            return
+        }
         showNextPage = true
     }
     
-    private func validateUsername() -> Bool {
+    private func validateUserName() -> Bool {
         guard !username.isEmpty else {
             alertTitle = "Username Required"
             alertMessage = "Please provide a username"
@@ -63,5 +68,7 @@ class SignUpViewModel: ObservableObject {
         }
         return true
     }
+    
+
     
 }
