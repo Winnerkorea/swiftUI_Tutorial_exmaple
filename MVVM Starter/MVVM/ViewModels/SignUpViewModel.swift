@@ -37,9 +37,7 @@ class SignUpViewModel:ObservableObject {
     func handlePasswordViewAlert(){
         if password == confirmPassword {
             showNextPage = false
-        } else {
-            showAlertInPasswordView = false
-        }
+        } 
     }
     
     func validate(){

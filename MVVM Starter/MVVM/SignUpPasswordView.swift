@@ -33,7 +33,7 @@ struct SignUpPasswordView: View {
                 .textFieldStyle(.roundedBorder)
                 .padding(.bottom)
             Button {
-                viewModel.handlePasswordViewAlert()
+                viewModel.confirmSignUP()
             } label: {
                 Text("Complete")
                     .foregroundStyle(.white)
