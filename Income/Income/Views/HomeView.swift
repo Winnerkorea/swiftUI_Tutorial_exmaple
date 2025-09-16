@@ -29,7 +29,7 @@ struct HomeView: View {
                     .background(Color("primaryLightGreen"))
                     .clipShape(Circle())
             }
-
+            
         }
     }
     
@@ -46,7 +46,7 @@ struct HomeView: View {
                         Text("Balance")
                             .font(.caption)
                             .foregroundStyle(Color.white)
-                            
+                        
                         
                         Text("$2")
                             .font(.system(size: 42, weight: .semibold))
@@ -104,7 +104,23 @@ struct HomeView: View {
                 
                 floatingButton()
             }
+            .navigationTitle("Income")
+            .toolbar {
+                ToolbarItem(placement: .navigationBarTrailing) {
+                    Button {
+                        // Todo 설정 액션 버튼
+                        print("click GearShape Button")
+                    } label: {
+                        Image(systemName: "gearshape.fill")
+                            .foregroundStyle(.black)
+                    }
+
+                }
+            }
         }
+        
+        
+        
         
     }
 }
