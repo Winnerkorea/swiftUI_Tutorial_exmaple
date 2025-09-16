@@ -6,26 +6,17 @@
 	objectVersion = 77;
 	objects = {
 
-/* Begin PBXBuildFile section */
-		05FC60D12E78008D00964BE5 /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60CE2E78008D00964BE5 /* HomeView.swift */; };
-		05FC60D22E78008D00964BE5 /* IncomeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60CF2E78008D00964BE5 /* IncomeApp.swift */; };
-		05FC60D32E78008D00964BE5 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05FC60CD2E78008D00964BE5 /* Assets.xcassets */; };
-		05FC60D62E78010400964BE5 /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60D52E78010400964BE5 /* TransactionModel.swift */; };
-		05FC60D82E78037700964BE5 /* TransactionTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60D72E78037700964BE5 /* TransactionTypeModel.swift */; };
-		05FC60DA2E781E9A00964BE5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05FC60D92E781E9A00964BE5 /* Colors.xcassets */; };
-		05FC60DD2E78414D00964BE5 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60DC2E78414D00964BE5 /* TransactionView.swift */; };
-/* End PBXBuildFile section */
-
 /* Begin PBXFileReference section */
 		059466AE2E77FEF20006A41D /* Income.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = Income.app; sourceTree = BUILT_PRODUCTS_DIR; };
-		05FC60CD2E78008D00964BE5 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
-		05FC60CE2E78008D00964BE5 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
-		05FC60CF2E78008D00964BE5 /* IncomeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IncomeApp.swift; sourceTree = "<group>"; };
-		05FC60D52E78010400964BE5 /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
-		05FC60D72E78037700964BE5 /* TransactionTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypeModel.swift; sourceTree = "<group>"; };
-		05FC60D92E781E9A00964BE5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
-		05FC60DC2E78414D00964BE5 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		059466B02E77FEF20006A41D /* Income */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = Income;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		059466AB2E77FEF20006A41D /* Frameworks */ = {
@@ -41,7 +32,7 @@
 		059466A52E77FEF20006A41D = {
 			isa = PBXGroup;
 			children = (
-				05FC60D02E78008D00964BE5 /* Income */,
+				059466B02E77FEF20006A41D /* Income */,
 				059466AF2E77FEF20006A41D /* Products */,
 			);
 			sourceTree = "<group>";
@@ -52,36 +43,6 @@
 				059466AE2E77FEF20006A41D /* Income.app */,
 			);
 			name = Products;
-			sourceTree = "<group>";
-		};
-		05FC60D02E78008D00964BE5 /* Income */ = {
-			isa = PBXGroup;
-			children = (
-				05FC60DB2E78413500964BE5 /* Views */,
-				05FC60D42E78009100964BE5 /* Model */,
-				05FC60CE2E78008D00964BE5 /* HomeView.swift */,
-				05FC60CF2E78008D00964BE5 /* IncomeApp.swift */,
-				05FC60CD2E78008D00964BE5 /* Assets.xcassets */,
-				05FC60D92E781E9A00964BE5 /* Colors.xcassets */,
-			);
-			path = Income;
-			sourceTree = "<group>";
-		};
-		05FC60D42E78009100964BE5 /* Model */ = {
-			isa = PBXGroup;
-			children = (
-				05FC60D52E78010400964BE5 /* TransactionModel.swift */,
-				05FC60D72E78037700964BE5 /* TransactionTypeModel.swift */,
-			);
-			path = Model;
-			sourceTree = "<group>";
-		};
-		05FC60DB2E78413500964BE5 /* Views */ = {
-			isa = PBXGroup;
-			children = (
-				05FC60DC2E78414D00964BE5 /* TransactionView.swift */,
-			);
-			path = Views;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -98,6 +59,9 @@
 			buildRules = (
 			);
 			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				059466B02E77FEF20006A41D /* Income */,
 			);
 			name = Income;
 			packageProductDependencies = (
@@ -145,8 +109,6 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05FC60D32E78008D00964BE5 /* Assets.xcassets in Resources */,
-				05FC60DA2E781E9A00964BE5 /* Colors.xcassets in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -157,11 +119,6 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				05FC60D82E78037700964BE5 /* TransactionTypeModel.swift in Sources */,
-				05FC60D62E78010400964BE5 /* TransactionModel.swift in Sources */,
-				05FC60DD2E78414D00964BE5 /* TransactionView.swift in Sources */,
-				05FC60D12E78008D00964BE5 /* HomeView.swift in Sources */,
-				05FC60D22E78008D00964BE5 /* IncomeApp.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
