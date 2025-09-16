@@ -14,6 +14,26 @@ struct HomeView: View {
         Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date())
     ]
     
+    fileprivate func floatingButton() -> some View{
+        VStack{
+            Spacer()
+            
+            NavigationLink {
+                AddTransactionView()
+            } label: {
+                Text("+")
+                    .font(.largeTitle)
+                    .padding(.bottom, 7)
+                    .frame(width: 70, height: 70)
+                    .foregroundStyle(.white)
+                    .background(Color("primaryLightGreen"))
+                    .clipShape(Circle())
+            }
+
+        }
+    }
+    
+    
     fileprivate func BalanceView() -> some View {
         ZStack {
             // 뷰 콘텐츠가 여기에 들어갑니다.
@@ -69,15 +89,21 @@ struct HomeView: View {
     
     
     var body: some View {
-        VStack {
-            BalanceView()
-            List{
-                ForEach(transactions) { transaction in
-                    TransactionView(transaction: transaction)
-                        .listRowSeparator(.hidden)
+        NavigationStack {
+            ZStack {
+                VStack {
+                    BalanceView()
+                    List{
+                        ForEach(transactions) { transaction in
+                            TransactionView(transaction: transaction)
+                                .listRowSeparator(.hidden)
+                        }
+                    }
+                    .scrollContentBackground(.hidden)
                 }
+                
+                floatingButton()
             }
-            .scrollContentBackground(.hidden)
         }
         
     }

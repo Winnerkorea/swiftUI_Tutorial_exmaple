@@ -14,6 +14,7 @@
 		05FC60D82E78037700964BE5 /* TransactionTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60D72E78037700964BE5 /* TransactionTypeModel.swift */; };
 		05FC60DA2E781E9A00964BE5 /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 05FC60D92E781E9A00964BE5 /* Colors.xcassets */; };
 		05FC60DD2E78414D00964BE5 /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60DC2E78414D00964BE5 /* TransactionView.swift */; };
+		05FC60DF2E78E3D600964BE5 /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05FC60DE2E78E3D600964BE5 /* AddTransactionView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
@@ -25,6 +26,7 @@
 		05FC60D72E78037700964BE5 /* TransactionTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypeModel.swift; sourceTree = "<group>"; };
 		05FC60D92E781E9A00964BE5 /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 		05FC60DC2E78414D00964BE5 /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
+		05FC60DE2E78E3D600964BE5 /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -59,7 +61,6 @@
 			children = (
 				05FC60DB2E78413500964BE5 /* Views */,
 				05FC60D42E78009100964BE5 /* Model */,
-				05FC60CE2E78008D00964BE5 /* HomeView.swift */,
 				05FC60CF2E78008D00964BE5 /* IncomeApp.swift */,
 				05FC60CD2E78008D00964BE5 /* Assets.xcassets */,
 				05FC60D92E781E9A00964BE5 /* Colors.xcassets */,
@@ -80,6 +81,8 @@
 			isa = PBXGroup;
 			children = (
 				05FC60DC2E78414D00964BE5 /* TransactionView.swift */,
+				05FC60CE2E78008D00964BE5 /* HomeView.swift */,
+				05FC60DE2E78E3D600964BE5 /* AddTransactionView.swift */,
 			);
 			path = Views;
 			sourceTree = "<group>";
@@ -160,6 +163,7 @@
 				05FC60D82E78037700964BE5 /* TransactionTypeModel.swift in Sources */,
 				05FC60D62E78010400964BE5 /* TransactionModel.swift in Sources */,
 				05FC60DD2E78414D00964BE5 /* TransactionView.swift in Sources */,
+				05FC60DF2E78E3D600964BE5 /* AddTransactionView.swift in Sources */,
 				05FC60D12E78008D00964BE5 /* HomeView.swift in Sources */,
 				05FC60D22E78008D00964BE5 /* IncomeApp.swift in Sources */,
 			);
