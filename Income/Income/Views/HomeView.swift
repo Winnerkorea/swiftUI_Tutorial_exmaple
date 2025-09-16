@@ -96,13 +96,13 @@ struct HomeView: View {
     //MARK: - Sum Balance , Expenses Add 총 지출을 위한 계산 프로퍼티
     
     private var expenses: String{
-        var sumExpenses: Double = 0.0
         
-        for transaction in transactions {
-            if transaction.type == .expense{
-                sumExpenses += transaction.amount
+        let sumExpenses = transactions
+            .filter{$0.type == .expense}
+            .reduce(0){
+                $0 + $1.amount
             }
-        }
+        
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
@@ -113,12 +113,12 @@ struct HomeView: View {
     //MARK: - Sum Balance , Income Add 총 수입을 위한 계산 프로퍼티
     
     private var income: String{
-        var sumIncome: Double = 0.0
-        for transaction in transactions {
-            if transaction.type == .income{
-                sumIncome += transaction.amount
+        let sumIncome = transactions
+            .filter {$0.type == .income}
+            .reduce(0){
+                $0 + $1.amount
             }
-        }
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         return formatter.string(from: sumIncome as NSNumber) ?? "0.00"
@@ -127,18 +127,28 @@ struct HomeView: View {
     // MARK: - 총잔액을 위한 계산 프로퍼티
     
     private var total: String{
-        var total: Double = 0.0
-        for transaction in transactions {
-            switch transaction.type {
-            case .income:
-                total += transaction.amount
-            case .expense:
-                total -= transaction.amount
+        
+        // 수입 합계 계산
+        let sumIncome = transactions
+            .filter {$0.type == .income}
+            .reduce(0){
+                $0 + $1.amount
             }
-        }
+        
+        // 지출 합계 계산
+        let sumExpenses = transactions
+            .filter{$0.type == .expense}
+            .reduce(0){
+                $0 + $1.amount
+            }
+        
+        // 총잔액 계산
+        var totalValue = sumIncome - sumExpenses
+        
+        
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
-        return formatter.string(from: total as NSNumber) ?? "0.00"
+        return formatter.string(from: totalValue as NSNumber) ?? "0.00"
     }
     
     var body: some View {
