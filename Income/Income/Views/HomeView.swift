@@ -19,7 +19,7 @@ struct HomeView: View {
             Spacer()
             
             NavigationLink {
-                AddTransactionView()
+                AddTransactionView(transaction: $transactions)
             } label: {
                 Text("+")
                     .font(.largeTitle)
