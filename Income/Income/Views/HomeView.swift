@@ -16,6 +16,8 @@ struct HomeView: View {
     
     @State private var showAddTransactionView: Bool = false
     
+    @State private var transactionToEdit: Transaction?
+    
     fileprivate func floatingButton() -> some View{
         VStack{
             Spacer()
@@ -99,7 +101,7 @@ struct HomeView: View {
                         ForEach(transactions) { transaction in
                             Button {
                             //Button Action
-                                showAddTransactionView = true
+                                transactionToEdit = transaction  // Bool 토글 대신, 항목을 할당
                                 
                             } label: {
                                 TransactionView(transaction: transaction)
@@ -115,7 +117,13 @@ struct HomeView: View {
             }
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
                 AddTransactionView(transaction: $transactions)
+            })  // 새 항목 추가용
+            .navigationDestination(item: $transactionToEdit, destination: { transaction in
+                AddTransactionView(transaction: $transactions, transactionToEdit: transaction)
             })
+            
+            
+            
             .navigationTitle("Income")
             .toolbar {
                 ToolbarItem(placement: .navigationBarTrailing) {

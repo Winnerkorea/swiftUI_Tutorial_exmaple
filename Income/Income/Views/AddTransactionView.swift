@@ -27,6 +27,8 @@ struct AddTransactionView: View {
         return formatter
     }
     
+    var transactionToEdit : Transaction? // 수정할 데이터를 받을 프로퍼티 추가
+    
     var body: some View {
         
         VStack{
@@ -112,7 +114,16 @@ struct AddTransactionView: View {
         } message: {
             Text(alertMessage)
         }
-
+        .onAppear {
+            // 뷰가 나타 때, 수정할 데이터가 있는지 확인
+            if let transactionToEdit{
+                // 데이터가 있다면, UI 상태 변수들을 업데이트
+                amount = transactionToEdit.amount
+                transactionTitle = transactionToEdit.title
+                selectedTransactionType = transactionToEdit.type
+                
+            }
+        }
 
     }
 }
