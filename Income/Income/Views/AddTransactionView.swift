@@ -76,6 +76,7 @@ struct AddTransactionView: View {
                 
                 // {검증 통과 후 로직}
                 // 2. Transaction 객체 생성
+                
                 let newTransaction = Transaction(
                     title: transactionTitle,
                     type: selectedTransactionType,
@@ -83,15 +84,36 @@ struct AddTransactionView: View {
                     date: Date()
                 )
                 
-                // 3. 배열에 새 객체 추가
-                transaction.append(newTransaction)
+                // 3. 수정과 추가에 대한 로직을 생성해야 함
+                
+                if let transactionToEdit{
+                    // --- 수정 로직 ---
+                    // transactionToEdit 값이 있으면 이 블록 실행
+                    // 1. 배열에서 수정할 항목의 인텍스를 찾는다.
+                    guard let index = transaction.firstIndex(of: transactionToEdit) else {
+                        alertTitle = "Something went wrong"
+                        alertMessage = "Cannot update this transaction right now"
+                        showAlert = true
+                        return
+                    }
+                    // 2. 해당 인텍스의 항목을 새로운 내용으로 교체한다.
+                    transaction[index] = newTransaction
+                } else {
+                    // --- 추가 로직 ---
+                    // transactionToEdit 값이 없으면 이 블록 실행
+                    transaction.append(newTransaction)
+                    
+                }
+                
+                
+                
                 
                 // 4. 현재 뷰 닫기
                 dismiss()
                 
                 
             } label:{
-                Text("Create")
+                Text(transactionToEdit == nil ? "Create" : "Update")
                     .font(.system(size: 15, weight:.semibold))
                     .foregroundStyle(Color.white)
                     .frame(maxWidth: .infinity)

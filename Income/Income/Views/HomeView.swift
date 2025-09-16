@@ -9,14 +9,15 @@ import SwiftUI
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = [
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()),
-        Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date())
-    ]
+    @State private var transactions: [Transaction] = []
     
     @State private var showAddTransactionView: Bool = false
     
     @State private var transactionToEdit: Transaction?
+    
+    
+    
+    //MARK: - fileprivate function
     
     fileprivate func floatingButton() -> some View{
         VStack{
@@ -46,13 +47,13 @@ struct HomeView: View {
             VStack(alignment: .leading) {
                 
                 HStack {
-                    VStack{
+                    VStack(alignment: .leading){
                         Text("Balance")
                             .font(.caption)
                             .foregroundStyle(Color.white)
                         
                         
-                        Text("$2")
+                        Text(total)
                             .font(.system(size: 42, weight: .semibold))
                             .foregroundStyle(Color.white)
                     }
@@ -67,7 +68,7 @@ struct HomeView: View {
                         Text("Expense")
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
-                        Text("$22.00")
+                        Text(expenses)
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                         
@@ -78,7 +79,7 @@ struct HomeView: View {
                             .font(.system(size: 15, weight: .semibold))
                             .foregroundStyle(.white)
                         // Todo: 실제 총 수입 데이터로 교체해야 한다.
-                        Text("$24.00")
+                        Text(income)
                             .font(.system(size: 15, weight: .regular))
                             .foregroundStyle(.white)
                     }
@@ -91,6 +92,54 @@ struct HomeView: View {
         .padding(.horizontal)
     }
     
+    
+    //MARK: - Sum Balance , Expenses Add 총 지출을 위한 계산 프로퍼티
+    
+    private var expenses: String{
+        var sumExpenses: Double = 0.0
+        
+        for transaction in transactions {
+            if transaction.type == .expense{
+                sumExpenses += transaction.amount
+            }
+        }
+        
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        
+        return formatter.string(from: sumExpenses as NSNumber) ?? "0.00"
+    }
+    
+    //MARK: - Sum Balance , Income Add 총 수입을 위한 계산 프로퍼티
+    
+    private var income: String{
+        var sumIncome: Double = 0.0
+        for transaction in transactions {
+            if transaction.type == .income{
+                sumIncome += transaction.amount
+            }
+        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        return formatter.string(from: sumIncome as NSNumber) ?? "0.00"
+    }
+    
+    // MARK: - 총잔액을 위한 계산 프로퍼티
+    
+    private var total: String{
+        var total: Double = 0.0
+        for transaction in transactions {
+            switch transaction.type {
+            case .income:
+                total += transaction.amount
+            case .expense:
+                total -= transaction.amount
+            }
+        }
+        let formatter = NumberFormatter()
+        formatter.numberStyle = .currency
+        return formatter.string(from: total as NSNumber) ?? "0.00"
+    }
     
     var body: some View {
         NavigationStack {
