@@ -143,12 +143,16 @@ struct HomeView: View {
             }
         
         // 총잔액 계산
-        var totalValue = sumIncome - sumExpenses
+        let totalValue = sumIncome - sumExpenses
         
         
         let formatter = NumberFormatter()
         formatter.numberStyle = .currency
         return formatter.string(from: totalValue as NSNumber) ?? "0.00"
+    }
+    
+    private func delete(at offsets: IndexSet){
+        transactions.remove(atOffsets: offsets)
     }
     
     var body: some View {
@@ -168,6 +172,7 @@ struct HomeView: View {
                             }
                             .tint(.black)
                         }
+                        .onDelete(perform: delete)
                     }
                     .scrollContentBackground(.hidden)
                 }
@@ -197,8 +202,7 @@ struct HomeView: View {
             }
         }
         
-        
-        
+        // 삭제 로직을 처리하는 함수
         
     }
 }
