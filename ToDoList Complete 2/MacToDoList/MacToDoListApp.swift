@@ -11,7 +11,8 @@ import SwiftUI
 struct MacToDoListApp: App {
     var body: some Scene {
         WindowGroup {
-            ContentView()
+            TasksView()
+                .preferredColorScheme(.light)
         }
     }
 }
