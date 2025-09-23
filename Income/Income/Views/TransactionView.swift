@@ -2,54 +2,47 @@
 //  TransactionView.swift
 //  Income
 //
-//  Created by Baba on 9/15/25.
 //
 
 import SwiftUI
 
 struct TransactionView: View {
-    let transaction : Transaction
+    let transaction: Transaction
+    @AppStorage("currency") var currency = Currency.usd
     
     var body: some View {
         VStack {
-            
-            HStack{
+            HStack {
                 Spacer()
                 Text(transaction.displayDate)
                     .font(.system(size: 14))
                 Spacer()
+                
             }
             .padding(.vertical, 5)
-            .background(Color("lightGrayShade").opacity(0.5)) // 커스텀 색상
+            .background(Color.lightGrayShade.opacity(0.5))
             .clipShape(RoundedRectangle(cornerRadius: 5))
-            
-            
-            HStack{
+            HStack {
                 Image(systemName: transaction.type == .income ? "arrow.up.forward" : "arrow.down.forward")
                     .font(.system(size: 16, weight: .bold))
-                    .foregroundStyle(transaction.type == .income ? .green : .red)
-                VStack(alignment: .leading, spacing: 5){
-                    HStack{
+                    .foregroundStyle(transaction.type == .income ? Color.green : Color.red)
+                VStack(alignment: .leading, spacing: 5) {
+                    HStack {
                         Text(transaction.title)
                             .font(.system(size: 15, weight: .bold))
-                        
                         Spacer()
-                        
-                        Text(transaction.displayAmount)
-                            .font(.system(size: 15, weight:.bold))
+                        Text(transaction.display(currency: currency))
+                            .font(.system(size: 15, weight: .bold))
                     }
-                    
                     Text("Completed")
                         .font(.system(size: 14))
                 }
-                
-                
             }
         }
+        .listRowSeparator(.hidden)
     }
 }
 
-
 #Preview {
-    TransactionView(transaction: .init(title: "Apple", type: .expense, amount: 5.0, date: Date()))
+    TransactionView(transaction: Transaction(title: "Apple", type: .expense, amount: 5.00, date: Date()))
 }

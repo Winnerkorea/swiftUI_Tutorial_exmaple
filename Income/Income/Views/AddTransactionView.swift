@@ -2,154 +2,112 @@
 //  AddTransactionView.swift
 //  Income
 //
-//  Created by Baba on 9/16/25.
 //
 
 import SwiftUI
 
 struct AddTransactionView: View {
-    
-    @State private var amount: Double = 0.0
-    @State private var selectedTransactionType: TransactionType = .expense // 새 상태 변수
-    @State private var transactionTitle: String = ""
-    
-    @State private var showAlert: Bool = false
-    @State private var alertTitle: String = ""
-    @State private var alertMessage: String = ""
-    
-    @Binding var transaction: [Transaction]
-    
+    @State private var amount = 0.0
+    @State private var transactionTitle = ""
+    @State private var selectedTransactionType: TransactionType = .expense
+    @State private var alertTitle = ""
+    @State private var alertMessage = ""
+    @State private var showAlert = false
+    @Binding var transactions: [Transaction]
+    var transactionToEdit: Transaction?
     @Environment(\.dismiss) var dismiss
     
-    private var numberFormatter: NumberFormatter {
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        return formatter
+    @AppStorage("currency") var currency = Currency.usd
+    
+    var numberFormatter: NumberFormatter {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
+        return numberFormatter
     }
     
-    var transactionToEdit : Transaction? // 수정할 데이터를 받을 프로퍼티 추가
-    
     var body: some View {
-        
-        VStack{
+        VStack {
             TextField("0.00", value: $amount, formatter: numberFormatter)
                 .font(.system(size: 60, weight: .thin))
                 .multilineTextAlignment(.center)
                 .keyboardType(.numberPad)
-            
-            // --- 구분선 ----
             Rectangle()
+                .fill(Color(uiColor: UIColor.lightGray))
                 .frame(height: 0.5)
                 .padding(.horizontal, 30)
-                .foregroundStyle(Color(uiColor: .lightGray))
-            
             Picker("Choose Type", selection: $selectedTransactionType) {
-                // 옵션 콘텐츠가 여기에 들어갑니다.
                 ForEach(TransactionType.allCases) { transactionType in
-                    // 각 케이스를 어떻게 표시할지 여기에 작성
                     Text(transactionType.title)
                         .tag(transactionType)
                 }
             }
-            
-            
-            
-            // --- 제목 Text Field ---
-            
             TextField("Title", text: $transactionTitle)
                 .font(.system(size: 15))
                 .textFieldStyle(.roundedBorder)
                 .padding(.horizontal, 30)
                 .padding(.top)
-            
-            
-            //  -- 생성 버튼 ---
-            Button{
-                // Create Button - Todo: 생성 액션
-                // 1. 입력값 검증
+            Button(action: {
                 guard transactionTitle.count >= 2 else {
                     alertTitle = "Invalid Title"
-                    alertMessage = "Title must be two or more charactres"
+                    alertMessage = "Title must be 2 or more characters long."
                     showAlert = true
                     return
                 }
+                //correction here. When editing the last date should be used
+//                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
                 
-                // {검증 통과 후 로직}
-                // 2. Transaction 객체 생성
-                
-                let newTransaction = Transaction(
-                    title: transactionTitle,
-                    type: selectedTransactionType,
-                    amount: amount,
-                    date: Date()
-                )
-                
-                // 3. 수정과 추가에 대한 로직을 생성해야 함
-                
-                if let transactionToEdit{
-                    // --- 수정 로직 ---
-                    // transactionToEdit 값이 있으면 이 블록 실행
-                    // 1. 배열에서 수정할 항목의 인텍스를 찾는다.
-                    guard let index = transaction.firstIndex(of: transactionToEdit) else {
+                if let transactionToEdit = transactionToEdit {
+                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
                         alertTitle = "Something went wrong"
-                        alertMessage = "Cannot update this transaction right now"
+                        alertMessage = "Cannot update this transaction right now."
                         showAlert = true
                         return
                     }
-                    // 2. 해당 인텍스의 항목을 새로운 내용으로 교체한다.
-                    transaction[index] = newTransaction
+                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: transactionToEdit.date)
+                    transactions[indexOfTransaction] = transaction
                 } else {
-                    // --- 추가 로직 ---
-                    // transactionToEdit 값이 없으면 이 블록 실행
-                    transaction.append(newTransaction)
-                    
+                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
+                    transactions.append(transaction)
                 }
                 
-                
-                
-                
-                // 4. 현재 뷰 닫기
                 dismiss()
                 
-                
-            } label:{
+            }, label: {
                 Text(transactionToEdit == nil ? "Create" : "Update")
-                    .font(.system(size: 15, weight:.semibold))
+                    .font(.system(size: 15, weight: .semibold))
                     .foregroundStyle(Color.white)
-                    .frame(maxWidth: .infinity)
                     .frame(height: 40)
-                    .background(Color.blue)
+                    .frame(maxWidth: .infinity)
+                    .background(Color.primaryLightGreen)
                     .clipShape(RoundedRectangle(cornerRadius: 6))
-                    .padding(.horizontal, 30)
-            }
-            
+                    
+            })
+            .padding(.top)
+            .padding(.horizontal, 30)
             Spacer()
         }
-        .padding(.top)
-        .alert(alertTitle, isPresented: $showAlert) {
-            
-            Button("OK", role: .cancel) {
-                // 경고 메세지에 대한 버튼 액션
-            }
-
-       
-        } message: {
-            Text(alertMessage)
-        }
-        .onAppear {
-            // 뷰가 나타 때, 수정할 데이터가 있는지 확인
-            if let transactionToEdit{
-                // 데이터가 있다면, UI 상태 변수들을 업데이트
+        .onAppear(perform: {
+            if let transactionToEdit = transactionToEdit {
                 amount = transactionToEdit.amount
                 transactionTitle = transactionToEdit.title
                 selectedTransactionType = transactionToEdit.type
-                
             }
+        })
+        .padding(.top)
+        .alert(alertTitle, isPresented: $showAlert) {
+            Button(action: {
+                
+            }, label: {
+                Text("OK")
+            })
+        } message: {
+            Text(alertMessage)
         }
 
     }
 }
 
 #Preview {
-    AddTransactionView(transaction: .constant([])) // 상수 배열 전달
+    AddTransactionView(transactions: .constant([]))
 }

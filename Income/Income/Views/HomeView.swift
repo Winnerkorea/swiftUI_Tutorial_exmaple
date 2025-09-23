@@ -1,8 +1,7 @@
 //
-//  ContentView.swift
+//  HomeView.swift
 //  Income
 //
-//  Created by Baba on 9/15/25.
 //
 
 import SwiftUI
@@ -10,149 +9,109 @@ import SwiftUI
 struct HomeView: View {
     
     @State private var transactions: [Transaction] = []
-    
-    @State private var showAddTransactionView: Bool = false
-    
+    @State private var showAddTransactionView = false
     @State private var transactionToEdit: Transaction?
     
+    @State private var showSettings = false
     
+    @AppStorage("orderDescending") var orderDescending = false
+    @AppStorage("filterMinimum") var filterMinimum = 0.0
+    @AppStorage("currency") var currency = Currency.usd
     
-    //MARK: - fileprivate function
+    private var numberFormatter: NumberFormatter {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
+        return numberFormatter
+    }
     
-    fileprivate func floatingButton() -> some View{
-        VStack{
+    private var displayTransactions: [Transaction] {
+        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
+        guard filterMinimum > 0 else {
+            return sortedTransactions
+        }
+        let filteredTransactions = sortedTransactions.filter({ $0.amount > filterMinimum })
+        return filteredTransactions
+    }
+    
+    private var expenses: String {
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$US0.00"
+    }
+    
+    private var income: String {
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        return numberFormatter.string(from: sumIncome as NSNumber) ?? "$US0.00"
+    }
+    
+    private var total: String {
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let total = sumIncome - sumExpenses
+        return numberFormatter.string(from: total as NSNumber) ?? "$US0.00"
+    }
+    
+    fileprivate func FloatingButton() -> some View {
+        VStack {
             Spacer()
-            
             NavigationLink {
-                AddTransactionView(transaction: $transactions)
+                AddTransactionView(transactions: $transactions)
             } label: {
                 Text("+")
                     .font(.largeTitle)
-                    .padding(.bottom, 7)
                     .frame(width: 70, height: 70)
-                    .foregroundStyle(.white)
-                    .background(Color("primaryLightGreen"))
-                    .clipShape(Circle())
+                    .foregroundStyle(Color.white)
+                    .padding(.bottom, 7)
+                    
             }
-            
+            .background(Color.primaryLightGreen)
+            .clipShape(Circle())
         }
     }
     
-    
     fileprivate func BalanceView() -> some View {
         ZStack {
-            // 뷰 콘텐츠가 여기에 들어갑니다.
             RoundedRectangle(cornerRadius: 8)
                 .fill(Color.primaryLightGreen)
-            VStack(alignment: .leading) {
-                
+            VStack(alignment: .leading, spacing: 8) {
                 HStack {
-                    VStack(alignment: .leading){
-                        Text("Balance")
+                    VStack(alignment: .leading) {
+                        Text("BALANCE")
                             .font(.caption)
                             .foregroundStyle(Color.white)
-                        
-                        
-                        Text(total)
-                            .font(.system(size: 42, weight: .semibold))
+                        Text("\(total)")
+                            .font(.system(size: 42, weight: .light))
                             .foregroundStyle(Color.white)
                     }
                     Spacer()
                 }
                 .padding(.top)
                 
-                // 하단 그룹 : 수입과 지출
-                // 지출
                 HStack(spacing: 25) {
-                    VStack(alignment: .leading){
+                    VStack(alignment: .leading) {
                         Text("Expense")
                             .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.white)
-                        Text(expenses)
+                            .foregroundStyle(Color.white)
+                        Text("\(expenses)")
                             .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(.white)
-                        
-                        
+                            .foregroundStyle(Color.white)
                     }
                     VStack(alignment: .leading) {
                         Text("Income")
                             .font(.system(size: 15, weight: .semibold))
-                            .foregroundStyle(.white)
-                        // Todo: 실제 총 수입 데이터로 교체해야 한다.
-                        Text(income)
+                            .foregroundStyle(Color.white)
+                        Text("\(income)")
                             .font(.system(size: 15, weight: .regular))
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.white)
                     }
                 }
                 Spacer()
             }
             .padding(.horizontal)
         }
+        .shadow(color: Color.black.opacity(0.3), radius: /*@START_MENU_TOKEN@*/10/*@END_MENU_TOKEN@*/, x: 0, y: 5)
         .frame(height: 150)
         .padding(.horizontal)
-    }
-    
-    
-    //MARK: - Sum Balance , Expenses Add 총 지출을 위한 계산 프로퍼티
-    
-    private var expenses: String{
-        
-        let sumExpenses = transactions
-            .filter{$0.type == .expense}
-            .reduce(0){
-                $0 + $1.amount
-            }
-        
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        
-        return formatter.string(from: sumExpenses as NSNumber) ?? "0.00"
-    }
-    
-    //MARK: - Sum Balance , Income Add 총 수입을 위한 계산 프로퍼티
-    
-    private var income: String{
-        let sumIncome = transactions
-            .filter {$0.type == .income}
-            .reduce(0){
-                $0 + $1.amount
-            }
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        return formatter.string(from: sumIncome as NSNumber) ?? "0.00"
-    }
-    
-    // MARK: - 총잔액을 위한 계산 프로퍼티
-    
-    private var total: String{
-        
-        // 수입 합계 계산
-        let sumIncome = transactions
-            .filter {$0.type == .income}
-            .reduce(0){
-                $0 + $1.amount
-            }
-        
-        // 지출 합계 계산
-        let sumExpenses = transactions
-            .filter{$0.type == .expense}
-            .reduce(0){
-                $0 + $1.amount
-            }
-        
-        // 총잔액 계산
-        let totalValue = sumIncome - sumExpenses
-        
-        
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        return formatter.string(from: totalValue as NSNumber) ?? "0.00"
-    }
-    
-    private func delete(at offsets: IndexSet){
-        transactions.remove(atOffsets: offsets)
     }
     
     var body: some View {
@@ -160,54 +119,52 @@ struct HomeView: View {
             ZStack {
                 VStack {
                     BalanceView()
-                    List{
-                        ForEach(transactions) { transaction in
-                            Button {
-                            //Button Action
-                                transactionToEdit = transaction  // Bool 토글 대신, 항목을 할당
-                                
-                            } label: {
+                    List {
+                        ForEach(displayTransactions) { transaction in
+                            Button(action: {
+                                transactionToEdit = transaction
+                            }, label: {
                                 TransactionView(transaction: transaction)
-                                    .listRowSeparator(.hidden)
-                            }
-                            .tint(.black)
+                                    .foregroundStyle(.black)
+                            })
                         }
                         .onDelete(perform: delete)
                     }
                     .scrollContentBackground(.hidden)
                 }
-                
-                floatingButton()
+                FloatingButton()
             }
-            .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView(transaction: $transactions)
-            })  // 새 항목 추가용
-            .navigationDestination(item: $transactionToEdit, destination: { transaction in
-                AddTransactionView(transaction: $transactions, transactionToEdit: transaction)
+            .sheet(isPresented: $showSettings, content: {
+                SettingsView()
             })
-            
-            
-            
             .navigationTitle("Income")
+            .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
+                AddTransactionView(transactions: $transactions, transactionToEdit: transactionToEdit)
+            })
+            .navigationDestination(isPresented: $showAddTransactionView, destination: {
+                AddTransactionView(transactions: $transactions)
+            })
             .toolbar {
-                ToolbarItem(placement: .navigationBarTrailing) {
-                    Button {
-                        // Todo 설정 액션 버튼
-                        print("click GearShape Button")
-                    } label: {
+                ToolbarItem(placement: .topBarTrailing) {
+                    Button(action: {
+                        showSettings = true
+                    }, label: {
                         Image(systemName: "gearshape.fill")
-                            .foregroundStyle(.black)
-                    }
+                            .foregroundStyle(Color.black)
+                    })
                 }
             }
         }
-        
-        // 삭제 로직을 처리하는 함수
-        
     }
+    
+    private func delete(at offsets: IndexSet) {
+        transactions.remove(atOffsets: offsets)
+    }
+    
 }
 
 #Preview {
     HomeView()
 }
+
 

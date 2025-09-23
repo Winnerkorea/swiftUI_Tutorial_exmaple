@@ -1,25 +1,21 @@
 //
-//  TransactionType.swift
+//  TransactionTypeModel.swift
 //  Income
 //
-//  Created by Baba on 9/15/25.
 //
 
 import Foundation
 
-
-enum TransactionType: String, CaseIterable, Identifiable{
-    case income
-    case expense
+enum TransactionType: String, CaseIterable, Identifiable {
+    case income, expense
+    var id: Self { self }
     
-    var id: Self {self}
-    
-    var title: String{
-        switch self{
+    var title: String {
+        switch self {
         case .income:
-           return "Income"
+            return "Income"
         case .expense:
-           return "Expense"
+            return "Expense"
         }
     }
 }

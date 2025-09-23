@@ -2,31 +2,43 @@
 //  TransactionModel.swift
 //  Income
 //
-//  Created by Baba on 9/15/25.
 //
 
 import Foundation
+import SwiftUI
 
-struct Transaction: Identifiable, Hashable {
+struct Transaction: Identifiable {
+    
     let id = UUID()
     let title: String
     let type: TransactionType
     let amount: Double
     let date: Date
-    var displayDate: String{
+    
+    var displayDate: String {
         let dateFormatter = DateFormatter()
-        dateFormatter.dateStyle = .medium
+        dateFormatter.dateStyle = .short
         return dateFormatter.string(from: date)
     }
-    var displayAmount: String{
-        let formatter = NumberFormatter()
-        formatter.numberStyle = .currency
-        formatter.maximumFractionDigits = 2
-        
-        // Double 타입을 NSNumber로 형 변환
-        let amountAsNumber = amount as NSNumber
-        
-        // 포멧팅 후 옵션 처리
-        return formatter.string(from: amountAsNumber) ?? ""
+    
+    func display(currency: Currency) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
+        return numberFormatter.string(from: amount as NSNumber) ?? ""
     }
+    
+}
+
+extension Transaction: Hashable {
+    
+    static func == (lhs: Transaction, rhs: Transaction) -> Bool {
+        lhs.id == rhs.id
+    }
+    
+    
+    func hash(into hasher: inout Hasher) {
+        hasher.combine(id)
+    }
+    
 }
