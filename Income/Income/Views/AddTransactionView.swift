@@ -15,7 +15,9 @@ struct AddTransactionView: View {
     @State private var showAlert = false
     @Binding var transactions: [Transaction]
     var transactionToEdit: Transaction?
-    @Environment(\.dismiss) var dismiss
+    @Environment(\.dismiss) private var dismiss
+    @Environment(\.managedObjectContext) private var viewContext
+    
     
     @AppStorage("currency") var currency = Currency.usd
     
@@ -54,8 +56,6 @@ struct AddTransactionView: View {
                     showAlert = true
                     return
                 }
-                //correction here. When editing the last date should be used
-//                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
                 
                 if let transactionToEdit = transactionToEdit {
                     guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
@@ -67,8 +67,34 @@ struct AddTransactionView: View {
                     let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: transactionToEdit.date)
                     transactions[indexOfTransaction] = transaction
                 } else {
-                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
-                    transactions.append(transaction)
+                    
+                    // 새로운 Core Data 방식
+                    // 1. Core Data의 TransactionItem 엔티티 인스턴스를 생성합니다.
+                    //      이때 반드시 context를 전달해야 합니다.
+                    let transaction = TransactionItem(context: viewContext)
+                    
+                    // 2. 생성된 인스턴스의 각 속성에 값을 할당합니다.
+                    transaction.id = UUID()
+                    transaction.title = transactionTitle
+                    transaction.amount = amount
+                    transaction.date = Date()
+                    
+                    // 'type'은 swift의 TransactionType(enum)을 Core Data의 Int16으로 변환해야 합니다.
+                    // 열거형의 rawValue를 사용하여 Int로 변환한 뒤, Int16으로 캐스팅합니다.
+                    transaction.type = Int16(selectedTransactionType.rawValue)
+                    
+                    do {
+                        // 저장이 성공하면 뷰를 닫습니다.( dismiss는 이미 외부에 있음)
+                        try viewContext.save()
+                    } catch {
+                        // 저정 중 에러가 발생하면 알림을 표시합니다.
+                        // 기존의 알림 로직을 재사용할 수 있습니다.
+                        alertTitle = "저장실패"
+                        alertMessage = "데이터를 저장하는 중에 오류가 발생했습니다. 다시 시도해 주세요."
+                        showAlert = true
+                        return
+                    }
+                    
                 }
                 
                 dismiss()
