@@ -3,10 +3,7 @@
 //  Income
 //
 //
-/*
- 
- 
- */
+
 
 import SwiftUI
 import SwiftData// 1.SwiftData Import
@@ -14,11 +11,8 @@ import SwiftData// 1.SwiftData Import
 struct HomeView: View {
     
     // 2. Query 매크로를 사용해 데이터를 가져올 프로퍼티를 선압합니다.
-    
-    // 기존의 있던 @State 프로퍼티
-    @State private var transactions: [Transaction] = []
-    
-    @Query var transactionsSwiftData: [TransactionModel]
+        
+    @Query var transactions: [TransactionModel]
     
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: TransactionModel?
@@ -39,7 +33,7 @@ struct HomeView: View {
     }
     
     private var displayTransactions: [TransactionModel] {
-        let sortedTransactions = orderDescending ? transactionsSwiftData.sorted(by: { $0.date < $1.date }) : transactionsSwiftData.sorted(by: { $0.date > $1.date })
+        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
         guard filterMinimum > 0 else {
             return sortedTransactions
         }
@@ -48,18 +42,18 @@ struct HomeView: View {
     }
     
     private var expenses: String {
-        let sumExpenses = transactionsSwiftData.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$US0.00"
     }
     
     private var income: String {
-        let sumIncome = transactionsSwiftData.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "$US0.00"
     }
     
     private var total: String {
-        let sumExpenses = transactionsSwiftData.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
-        let sumIncome = transactionsSwiftData.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
         let total = sumIncome - sumExpenses
         return numberFormatter.string(from: total as NSNumber) ?? "$US0.00"
     }
@@ -68,7 +62,7 @@ struct HomeView: View {
         VStack {
             Spacer()
             NavigationLink {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             } label: {
                 Text("+")
                     .font(.largeTitle)
@@ -152,10 +146,10 @@ struct HomeView: View {
             })
             .navigationTitle("Income")
             .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
-                AddTransactionView(transactions: $transactions, transactionToEdit: transactionToEdit)
+                AddTransactionView(transactionToEdit: transactionToEdit)
             })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -173,7 +167,7 @@ struct HomeView: View {
     private func delete(at offsets: IndexSet) {
         // 1. 삭제할 항목들의 인텍스를 순회합니다.
         for index in offsets {
-            let transactionToDelete = transactionsSwiftData[index]
+            let transactionToDelete = transactions[index]
             // 2. context를 사용해 객체를 삭제합니다.
             context.delete(transactionToDelete)
             // 3. (선택적) 변경사항을 즉시 저장합니다.
