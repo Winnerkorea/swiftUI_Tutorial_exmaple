@@ -13,7 +13,7 @@ struct HomeView: View {
     @State private var transactionToEdit: TransactionItem?
     @State private var showSettings = false
     
-    @FetchRequest(sortDescriptors: []) var transactionsCoreData: FetchedResults<TransactionItem>
+    @FetchRequest(sortDescriptors: []) var transactions: FetchedResults<TransactionItem>
     
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("filterMinimum") var filterMinimum = 0.0
@@ -29,7 +29,7 @@ struct HomeView: View {
     }
     
     private var displayTransactions: [TransactionItem] {
-        let sortedTransactions = orderDescending ? transactionsCoreData.sorted(by: { $0.wrappedDate < $1.wrappedDate }) : transactionsCoreData.sorted(by: { $0.wrappedDate > $1.wrappedDate })
+        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.wrappedDate < $1.wrappedDate }) : transactions.sorted(by: { $0.wrappedDate > $1.wrappedDate })
         guard filterMinimum > 0 else {
             return sortedTransactions
         }
@@ -38,18 +38,18 @@ struct HomeView: View {
     }
     
     private var expenses: String {
-        let sumExpenses = transactionsCoreData.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactions.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$US0.00"
     }
     
     private var income: String {
-        let sumIncome = transactionsCoreData.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "$US0.00"
     }
     
     private var total: String {
-        let sumExpenses = transactionsCoreData.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
-        let sumIncome = transactionsCoreData.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactions.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactions.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
         let total = sumIncome - sumExpenses
         return numberFormatter.string(from: total as NSNumber) ?? "$US0.00"
     }
@@ -165,7 +165,7 @@ struct HomeView: View {
         // 1. 삭제할 항목들의 인텍스 Set을 순회합니다.
         for index in offsets {
             // 2. 해당 인텍스에 있는 TransactionItem 객체를 가져옵니다.
-            let transactionToDelete = transactionsCoreData[index]
+            let transactionToDelete = transactions[index]
             // 3. View Context에게 해당 객체를 삭제하라고 명령합니다.
             // 이 작업은 객체 그래프(메모리)에서 객체를 제거합니다.
             // @FetchRequest는 이 변경을 감지하고 UI를 자동으로 업데이트 합니다.
