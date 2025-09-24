@@ -142,5 +142,6 @@ struct AddTransactionView: View {
 }
 
 #Preview {
-    AddTransactionView()
+    let dataManager = DataManager.sharedPreview
+    return AddTransactionView().environment(\.managedObjectContext, dataManager.container.viewContext)
 }
