@@ -19,7 +19,6 @@
 		20FB861D2B691FE700E430BE /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB861C2B691FE700E430BE /* HomeView.swift */; };
 		20FB861F2B691FE700E430BE /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FB861E2B691FE700E430BE /* Assets.xcassets */; };
 		20FB86222B691FE700E430BE /* Preview Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FB86212B691FE700E430BE /* Preview Assets.xcassets */; };
-		20FB862A2B69213900E430BE /* TransactionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB86292B69213900E430BE /* TransactionModel.swift */; };
 		20FB862C2B6921BD00E430BE /* TransactionTypeModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20FB862B2B6921BD00E430BE /* TransactionTypeModel.swift */; };
 		20FB862E2B69285F00E430BE /* Colors.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 20FB862D2B69285F00E430BE /* Colors.xcassets */; };
 /* End PBXBuildFile section */
@@ -38,7 +37,6 @@
 		20FB861C2B691FE700E430BE /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
 		20FB861E2B691FE700E430BE /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		20FB86212B691FE700E430BE /* Preview Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = "Preview Assets.xcassets"; sourceTree = "<group>"; };
-		20FB86292B69213900E430BE /* TransactionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionModel.swift; sourceTree = "<group>"; };
 		20FB862B2B6921BD00E430BE /* TransactionTypeModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionTypeModel.swift; sourceTree = "<group>"; };
 		20FB862D2B69285F00E430BE /* Colors.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Colors.xcassets; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -117,7 +115,6 @@
 		20FB86282B69212200E430BE /* Model */ = {
 			isa = PBXGroup;
 			children = (
-				20FB86292B69213900E430BE /* TransactionModel.swift */,
 				20FB862B2B6921BD00E430BE /* TransactionTypeModel.swift */,
 				20467A3B2B738D7000CCAF5C /* CurrencyModel.swift */,
 			);
@@ -199,7 +196,6 @@
 				05A7006B2E82D2000023DEA9 /* DataManager.swift in Sources */,
 				20FB862C2B6921BD00E430BE /* TransactionTypeModel.swift in Sources */,
 				20467A3C2B738D7000CCAF5C /* CurrencyModel.swift in Sources */,
-				20FB862A2B69213900E430BE /* TransactionModel.swift in Sources */,
 				206DB8A92B6A6B980076400A /* TransactionView.swift in Sources */,
 				206DB8AB2B6A7ABC0076400A /* AddTransactionView.swift in Sources */,
 				05A700682E82D12E0023DEA9 /* TransactionItem+CoreDataClass.swift in Sources */,

@@ -9,7 +9,6 @@ import CoreData
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
     @State private var transactionToEdit: TransactionItem?
     @State private var showSettings = false
@@ -19,6 +18,8 @@ struct HomeView: View {
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     @AppStorage("currency") var currency = Currency.usd
+    
+    @Environment(\.managedObjectContext) private var viewContext
     
     private var numberFormatter: NumberFormatter {
         let numberFormatter = NumberFormatter()
@@ -57,7 +58,7 @@ struct HomeView: View {
         VStack {
             Spacer()
             NavigationLink {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             } label: {
                 Text("+")
                     .font(.largeTitle)
@@ -141,10 +142,10 @@ struct HomeView: View {
             })
             .navigationTitle("Income")
             .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
-                AddTransactionView(transactions: $transactions, transactionToEdit: transactionToEdit)
+                AddTransactionView(transactionToEdit: transactionToEdit)
             })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -160,7 +161,17 @@ struct HomeView: View {
     }
     
     private func delete(at offsets: IndexSet) {
-        transactions.remove(atOffsets: offsets)
+        
+        // 1. 삭제할 항목들의 인텍스 Set을 순회합니다.
+        for index in offsets {
+            // 2. 해당 인텍스에 있는 TransactionItem 객체를 가져옵니다.
+            let transactionToDelete = transactionsCoreData[index]
+            // 3. View Context에게 해당 객체를 삭제하라고 명령합니다.
+            // 이 작업은 객체 그래프(메모리)에서 객체를 제거합니다.
+            // @FetchRequest는 이 변경을 감지하고 UI를 자동으로 업데이트 합니다.
+            viewContext.delete(transactionToDelete)
+            
+        }
     }
     
 }
