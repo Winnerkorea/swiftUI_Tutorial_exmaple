@@ -11,33 +11,33 @@ import CoreData
 
 
 extension TransactionItem {
-
+    
     @nonobjc public class func fetchRequest() -> NSFetchRequest<TransactionItem> {
         return NSFetchRequest<TransactionItem>(entityName: "TransactionItem")
     }
-
+    
     @NSManaged public var id: UUID?
     @NSManaged public var title: String?
     @NSManaged public var type: Int16
     @NSManaged public var amount: Double
     @NSManaged public var date: Date?
-
+    
 }
 
 extension TransactionItem : Identifiable {
-
+    
 }
 
 // TransactionItem+CoreDataProperties.swift (새 파일 또는 기존 파일 하단에 추가)
 
 extension TransactionItem {
-
+    
     // UUID? -> UUID
     // id는 거래에 필수적이므로, 만약 없다면 크래시를 발생시켜 문제를 즉시 인지하게 합니다.
     var wrappedId: UUID {
         id!
     }
-
+    
     // String? -> String
     // title이 nil일 경우, 빈 문자열("")을 기본값으로 반환합니다.
     var wrappedTitle: String {
@@ -55,11 +55,26 @@ extension TransactionItem {
     var wrappedAmount: Double {
         amount
     }
-
+    
     // Int16 -> TransactionType (Enum)
     // 저장된 정수(Int16)를 TransactionType 열거형으로 변환합니다.
     // 변환에 실패할 경우(예: 0 또는 1이 아닌 값), 기본값으로 .expense를 반환합니다.
     var wrappedTransactionType: TransactionType {
         TransactionType(rawValue: Int(type)) ?? .expense
     }
+    // 날짜를 "yyyy.MM.dd" 형식의 문자열로 변환
+    var displayDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: wrappedDate)
+    }
+    
+    // 금액을 지역화된 통화 형식의 문자열로 변환
+    func display(currency: Currency) -> String {
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
+        return numberFormatter.string(from: amount as NSNumber) ?? ""
+    }
+    
 }

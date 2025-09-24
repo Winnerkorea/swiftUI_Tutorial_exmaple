@@ -5,14 +5,16 @@
 //
 
 import SwiftUI
+import CoreData
 
 struct HomeView: View {
     
     @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
-    @State private var transactionToEdit: Transaction?
-    
+    @State private var transactionToEdit: TransactionItem?
     @State private var showSettings = false
+    
+    @FetchRequest(sortDescriptors: []) var transactionsCoreData: FetchedResults<TransactionItem>
     
     @AppStorage("orderDescending") var orderDescending = false
     @AppStorage("filterMinimum") var filterMinimum = 0.0
@@ -25,8 +27,8 @@ struct HomeView: View {
         return numberFormatter
     }
     
-    private var displayTransactions: [Transaction] {
-        let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
+    private var displayTransactions: [TransactionItem] {
+        let sortedTransactions = orderDescending ? transactionsCoreData.sorted(by: { $0.wrappedDate < $1.wrappedDate }) : transactionsCoreData.sorted(by: { $0.wrappedDate > $1.wrappedDate })
         guard filterMinimum > 0 else {
             return sortedTransactions
         }
@@ -35,18 +37,18 @@ struct HomeView: View {
     }
     
     private var expenses: String {
-        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactionsCoreData.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumExpenses as NSNumber) ?? "$US0.00"
     }
     
     private var income: String {
-        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactionsCoreData.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
         return numberFormatter.string(from: sumIncome as NSNumber) ?? "$US0.00"
     }
     
     private var total: String {
-        let sumExpenses = transactions.filter({ $0.type == .expense }).reduce(0, { $0 + $1.amount })
-        let sumIncome = transactions.filter({ $0.type == .income }).reduce(0, { $0 + $1.amount })
+        let sumExpenses = transactionsCoreData.filter({ $0.wrappedTransactionType == .expense }).reduce(0, { $0 + $1.amount })
+        let sumIncome = transactionsCoreData.filter({ $0.wrappedTransactionType == .income }).reduce(0, { $0 + $1.amount })
         let total = sumIncome - sumExpenses
         return numberFormatter.string(from: total as NSNumber) ?? "$US0.00"
     }
@@ -62,7 +64,7 @@ struct HomeView: View {
                     .frame(width: 70, height: 70)
                     .foregroundStyle(Color.white)
                     .padding(.bottom, 7)
-                    
+                
             }
             .background(Color.primaryLightGreen)
             .clipShape(Circle())

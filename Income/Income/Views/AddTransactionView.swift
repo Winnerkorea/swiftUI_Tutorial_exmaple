@@ -14,7 +14,7 @@ struct AddTransactionView: View {
     @State private var alertMessage = ""
     @State private var showAlert = false
     @Binding var transactions: [Transaction]
-    var transactionToEdit: Transaction?
+    var transactionToEdit: TransactionItem?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.managedObjectContext) private var viewContext
     
@@ -58,14 +58,22 @@ struct AddTransactionView: View {
                 }
                 
                 if let transactionToEdit = transactionToEdit {
-                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
-                        alertTitle = "Something went wrong"
-                        alertMessage = "Cannot update this transaction right now."
+                    transactionToEdit.title = transactionTitle
+                    transactionToEdit.amount = amount
+                    transactionToEdit.type = Int16(selectedTransactionType.rawValue)
+                    
+                    do{
+                        try viewContext.save()
+                        dismiss()
+                        
+                    } catch {
+                        print("업데이트 실패: \(error.localizedDescription)")
+                        alertTitle = "저장실패"
+                        alertMessage = "데이터를 저장하는 중에 오류가 발생했습니다. 다시 시도해 주세요."
                         showAlert = true
                         return
                     }
-                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: transactionToEdit.date)
-                    transactions[indexOfTransaction] = transaction
+                    
                 } else {
                     
                     // 새로운 Core Data 방식
@@ -116,8 +124,8 @@ struct AddTransactionView: View {
         .onAppear(perform: {
             if let transactionToEdit = transactionToEdit {
                 amount = transactionToEdit.amount
-                transactionTitle = transactionToEdit.title
-                selectedTransactionType = transactionToEdit.type
+                transactionTitle = transactionToEdit.wrappedTitle
+                selectedTransactionType = transactionToEdit.wrappedTransactionType
             }
         })
         .padding(.top)
