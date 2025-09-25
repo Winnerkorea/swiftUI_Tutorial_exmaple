@@ -7,7 +7,6 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
-		05034F6E2E842E2300EB2227 /* PreviewHelper.swift in Sources */ = {isa = PBXBuildFile; fileRef = 05034F6D2E842E2300EB2227 /* PreviewHelper.swift */; };
 		20467A3C2B738D7000CCAF5C /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20467A3B2B738D7000CCAF5C /* CurrencyModel.swift */; };
 		206DB8A92B6A6B980076400A /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206DB8A82B6A6B980076400A /* TransactionView.swift */; };
 		206DB8AB2B6A7ABC0076400A /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206DB8AA2B6A7ABC0076400A /* AddTransactionView.swift */; };
@@ -22,7 +21,6 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
-		05034F6D2E842E2300EB2227 /* PreviewHelper.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PreviewHelper.swift; sourceTree = "<group>"; };
 		20467A3B2B738D7000CCAF5C /* CurrencyModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CurrencyModel.swift; sourceTree = "<group>"; };
 		206DB8A82B6A6B980076400A /* TransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TransactionView.swift; sourceTree = "<group>"; };
 		206DB8AA2B6A7ABC0076400A /* AddTransactionView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddTransactionView.swift; sourceTree = "<group>"; };
@@ -48,14 +46,6 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
-		05034F6C2E842E1000EB2227 /* Helper */ = {
-			isa = PBXGroup;
-			children = (
-				05034F6D2E842E2300EB2227 /* PreviewHelper.swift */,
-			);
-			path = Helper;
-			sourceTree = "<group>";
-		};
 		206DB8A72B6A6B820076400A /* Views */ = {
 			isa = PBXGroup;
 			children = (
@@ -86,7 +76,6 @@
 		20FB86192B691FE700E430BE /* Income */ = {
 			isa = PBXGroup;
 			children = (
-				05034F6C2E842E1000EB2227 /* Helper */,
 				206DB8A72B6A6B820076400A /* Views */,
 				20FB86282B69212200E430BE /* Model */,
 				20FB861A2B691FE700E430BE /* IncomeApp.swift */,
@@ -143,7 +132,7 @@
 			attributes = {
 				BuildIndependentTargetsInParallel = 1;
 				LastSwiftUpdateCheck = 1500;
-				LastUpgradeCheck = 1640;
+				LastUpgradeCheck = 1500;
 				TargetAttributes = {
 					20FB86162B691FE700E430BE = {
 						CreatedOnToolsVersion = 15.0.1;
@@ -192,7 +181,6 @@
 				20FB862A2B69213900E430BE /* TransactionModel.swift in Sources */,
 				206DB8A92B6A6B980076400A /* TransactionView.swift in Sources */,
 				206DB8AB2B6A7ABC0076400A /* AddTransactionView.swift in Sources */,
-				05034F6E2E842E2300EB2227 /* PreviewHelper.swift in Sources */,
 				20FB861D2B691FE700E430BE /* HomeView.swift in Sources */,
 				20FB861B2B691FE700E430BE /* IncomeApp.swift in Sources */,
 			);
@@ -236,7 +224,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = dwarf;
-				DEVELOPMENT_TEAM = 99ML87QN3J;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_TESTABILITY = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -300,7 +287,6 @@
 				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
 				COPY_PHASE_STRIP = NO;
 				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
-				DEVELOPMENT_TEAM = 99ML87QN3J;
 				ENABLE_NS_ASSERTIONS = NO;
 				ENABLE_STRICT_OBJC_MSGSEND = YES;
 				ENABLE_USER_SCRIPT_SANDBOXING = YES;
@@ -330,6 +316,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Income/Preview Content\"";
+				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -337,13 +324,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.baba.Income;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gwinyai.Income;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
@@ -359,6 +345,7 @@
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Income/Preview Content\"";
+				DEVELOPMENT_TEAM = W85GJYFB35;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -366,13 +353,12 @@
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
 				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
-				IPHONEOS_DEPLOYMENT_TARGET = 18.0;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.baba.Income;
+				PRODUCT_BUNDLE_IDENTIFIER = com.gwinyai.Income;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;

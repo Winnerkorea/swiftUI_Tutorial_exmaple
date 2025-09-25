@@ -4,18 +4,13 @@
 //
 //
 
-
 import SwiftUI
-import SwiftData// 1.SwiftData Import
 
 struct HomeView: View {
     
-    // 2. Query 매크로를 사용해 데이터를 가져올 프로퍼티를 선압합니다.
-        
-    @Query var transactions: [TransactionModel]
-    
+    @State private var transactions: [Transaction] = []
     @State private var showAddTransactionView = false
-    @State private var transactionToEdit: TransactionModel?
+    @State private var transactionToEdit: Transaction?
     
     @State private var showSettings = false
     
@@ -23,8 +18,6 @@ struct HomeView: View {
     @AppStorage("filterMinimum") var filterMinimum = 0.0
     @AppStorage("currency") var currency = Currency.usd
     
-    @Environment(\.modelContext) private var context
-
     private var numberFormatter: NumberFormatter {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
@@ -32,7 +25,7 @@ struct HomeView: View {
         return numberFormatter
     }
     
-    private var displayTransactions: [TransactionModel] {
+    private var displayTransactions: [Transaction] {
         let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
         guard filterMinimum > 0 else {
             return sortedTransactions
@@ -62,14 +55,14 @@ struct HomeView: View {
         VStack {
             Spacer()
             NavigationLink {
-                AddTransactionView()
+                AddTransactionView(transactions: $transactions)
             } label: {
                 Text("+")
                     .font(.largeTitle)
                     .frame(width: 70, height: 70)
                     .foregroundStyle(Color.white)
                     .padding(.bottom, 7)
-                
+                    
             }
             .background(Color.primaryLightGreen)
             .clipShape(Circle())
@@ -146,10 +139,10 @@ struct HomeView: View {
             })
             .navigationTitle("Income")
             .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
-                AddTransactionView(transactionToEdit: transactionToEdit)
+                AddTransactionView(transactions: $transactions, transactionToEdit: transactionToEdit)
             })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView()
+                AddTransactionView(transactions: $transactions)
             })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -165,26 +158,13 @@ struct HomeView: View {
     }
     
     private func delete(at offsets: IndexSet) {
-        // 1. 삭제할 항목들의 인텍스를 순회합니다.
-        for index in offsets {
-            let transactionToDelete = transactions[index]
-            // 2. context를 사용해 객체를 삭제합니다.
-            context.delete(transactionToDelete)
-            // 3. (선택적) 변경사항을 즉시 저장합니다.
-            try? context.save()
-        }
+        transactions.remove(atOffsets: offsets)
     }
     
 }
 
 #Preview {
-    
-    // 1. PreviewHelper를 통해 프리뷰용 컨테이너를 가져옵니다.
-    let previewContainer = PreviewHelper.previewContainer
-    
-    // 2. .modelContainer 수정자를 사용해 뷰에 컨테어너를 주입합니다.
-    return HomeView()
-        .modelContainer(previewContainer)
+    HomeView()
 }
 
 

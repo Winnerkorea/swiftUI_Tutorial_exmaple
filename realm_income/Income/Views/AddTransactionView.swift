@@ -5,7 +5,6 @@
 //
 
 import SwiftUI
-import SwiftData
 
 struct AddTransactionView: View {
     @State private var amount = 0.0
@@ -14,9 +13,9 @@ struct AddTransactionView: View {
     @State private var alertTitle = ""
     @State private var alertMessage = ""
     @State private var showAlert = false
-    var transactionToEdit: TransactionModel?
+    @Binding var transactions: [Transaction]
+    var transactionToEdit: Transaction?
     @Environment(\.dismiss) var dismiss
-    @Environment(\.modelContext) private var context
     
     @AppStorage("currency") var currency = Currency.usd
     
@@ -59,12 +58,17 @@ struct AddTransactionView: View {
 //                let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
                 
                 if let transactionToEdit = transactionToEdit {
-                    transactionToEdit.title = transactionTitle
-                    transactionToEdit.amount = amount
-                    transactionToEdit.type = selectedTransactionType
+                    guard let indexOfTransaction = transactions.firstIndex(of: transactionToEdit) else {
+                        alertTitle = "Something went wrong"
+                        alertMessage = "Cannot update this transaction right now."
+                        showAlert = true
+                        return
+                    }
+                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: transactionToEdit.date)
+                    transactions[indexOfTransaction] = transaction
                 } else {
-                    let transaction = TransactionModel(id: UUID(), title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
-                    context.insert(transaction)
+                    let transaction = Transaction(title: transactionTitle, type: selectedTransactionType, amount: amount, date: Date())
+                    transactions.append(transaction)
                 }
                 
                 dismiss()
@@ -105,8 +109,5 @@ struct AddTransactionView: View {
 }
 
 #Preview {
-    let previewContainer = PreviewHelper.previewContainer
-    
-    return AddTransactionView()
-        .modelContainer(previewContainer)
+    AddTransactionView(transactions: .constant([]))
 }
