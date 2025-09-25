@@ -7,6 +7,8 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		05D2BFD22E84C7EA00908D38 /* Realm in Frameworks */ = {isa = PBXBuildFile; productRef = 05D2BFD12E84C7EA00908D38 /* Realm */; };
+		05D2BFD42E84C7EA00908D38 /* RealmSwift in Frameworks */ = {isa = PBXBuildFile; productRef = 05D2BFD32E84C7EA00908D38 /* RealmSwift */; };
 		20467A3C2B738D7000CCAF5C /* CurrencyModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 20467A3B2B738D7000CCAF5C /* CurrencyModel.swift */; };
 		206DB8A92B6A6B980076400A /* TransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206DB8A82B6A6B980076400A /* TransactionView.swift */; };
 		206DB8AB2B6A7ABC0076400A /* AddTransactionView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 206DB8AA2B6A7ABC0076400A /* AddTransactionView.swift */; };
@@ -40,6 +42,8 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				05D2BFD42E84C7EA00908D38 /* RealmSwift in Frameworks */,
+				05D2BFD22E84C7EA00908D38 /* Realm in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -148,6 +152,9 @@
 				Base,
 			);
 			mainGroup = 20FB860E2B691FE700E430BE;
+			packageReferences = (
+				05D2BFD02E84C7EA00908D38 /* XCRemoteSwiftPackageReference "realm-swift" */,
+			);
 			productRefGroup = 20FB86182B691FE700E430BE /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -313,10 +320,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Income/Preview Content\"";
-				DEVELOPMENT_TEAM = W85GJYFB35;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -329,8 +336,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gwinyai.Income;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baba.Income;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -342,10 +350,10 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
-				CODE_SIGN_STYLE = Automatic;
+				CODE_SIGN_STYLE = Manual;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Income/Preview Content\"";
-				DEVELOPMENT_TEAM = W85GJYFB35;
+				DEVELOPMENT_TEAM = "";
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
@@ -358,8 +366,9 @@
 					"@executable_path/Frameworks",
 				);
 				MARKETING_VERSION = 1.0;
-				PRODUCT_BUNDLE_IDENTIFIER = com.gwinyai.Income;
+				PRODUCT_BUNDLE_IDENTIFIER = com.baba.Income;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				PROVISIONING_PROFILE_SPECIFIER = "";
 				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_VERSION = 5.0;
 				TARGETED_DEVICE_FAMILY = "1,2";
@@ -388,6 +397,30 @@
 			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		05D2BFD02E84C7EA00908D38 /* XCRemoteSwiftPackageReference "realm-swift" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/realm/realm-swift.git";
+			requirement = {
+				kind = upToNextMajorVersion;
+				minimumVersion = 20.0.3;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		05D2BFD12E84C7EA00908D38 /* Realm */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05D2BFD02E84C7EA00908D38 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = Realm;
+		};
+		05D2BFD32E84C7EA00908D38 /* RealmSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 05D2BFD02E84C7EA00908D38 /* XCRemoteSwiftPackageReference "realm-swift" */;
+			productName = RealmSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 20FB860F2B691FE700E430BE /* Project object */;
 }
