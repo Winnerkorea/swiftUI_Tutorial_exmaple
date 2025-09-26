@@ -10,11 +10,11 @@ import SwiftData
 
 @Model class TransactionModel {
     
-    let id: UUID
+    var id: UUID
     var title: String
-    var type: TransactionType
-    var amount: Double
-    let date: Date
+    var type: TransactionType = TransactionType.expense
+    var amount: Double = 0
+    var date: Date = Date()
     
     init(id: UUID, title: String, type: TransactionType, amount: Double, date: Date) {
         self.id = id
@@ -24,12 +24,14 @@ import SwiftData
         self.date = date
     }
     
+    @Transient
     var displayDate: String {
         let dateFormatter = DateFormatter()
         dateFormatter.dateStyle = .short
         return dateFormatter.string(from: date)
     }
     
+    @Transient
     func display(currency: Currency) -> String {
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
