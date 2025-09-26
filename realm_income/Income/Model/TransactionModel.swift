@@ -6,6 +6,43 @@
 
 import Foundation
 import SwiftUI
+import RealmSwift
+
+
+class TransactionModel: Object, ObjectKeyIdentifiable{
+    
+    @Persisted(primaryKey: true) var _id: ObjectId
+    @Persisted var title: String
+    @Persisted var type: TransactionType
+    @Persisted var amount: Double
+    @Persisted var date: Date
+    
+    convenience init(_id: ObjectId, title: String, type: TransactionType, amount: Double, date: Date) {
+        self.init()
+        self._id = _id
+        self.title = title
+        self.type = type
+        self.amount = amount
+        self.date = date
+    }
+    
+    var displayDate: String {
+        let dateFormatter = DateFormatter()
+        dateFormatter.dateStyle = .short
+        return dateFormatter.string(from: date)
+    }
+    
+    func display(currency: Currency) -> String {
+        
+        let transaction = Transaction(title: "Dinner", type: .expense, amount: 15.0, date: Date())
+   
+        let numberFormatter = NumberFormatter()
+        numberFormatter.numberStyle = .currency
+        numberFormatter.locale = currency.locale
+        return numberFormatter.string(from: amount as NSNumber) ?? ""
+    }
+    
+}
 
 struct Transaction: Identifiable {
     
@@ -22,6 +59,9 @@ struct Transaction: Identifiable {
     }
     
     func display(currency: Currency) -> String {
+        
+        let transaction = Transaction(title: "Dinner", type: .expense, amount: 15.0, date: Date())
+   
         let numberFormatter = NumberFormatter()
         numberFormatter.numberStyle = .currency
         numberFormatter.locale = currency.locale

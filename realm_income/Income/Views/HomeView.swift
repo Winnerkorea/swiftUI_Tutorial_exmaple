@@ -4,14 +4,20 @@
 //
 //
 
+// CRUD
+// RealmSwift Imort
+
 import SwiftUI
 import RealmSwift
 
 struct HomeView: View {
     
-    @State private var transactions: [Transaction] = []
+    // @State private var transactions: [Transaction] = []
+    
+    @ObservedResults(TransactionModel.self) var transactions
+    
     @State private var showAddTransactionView = false
-    @State private var transactionToEdit: Transaction?
+    @State private var transactionToEdit: TransactionModel?
     
     @State private var showSettings = false
     
@@ -26,7 +32,7 @@ struct HomeView: View {
         return numberFormatter
     }
     
-    private var displayTransactions: [Transaction] {
+    private var displayTransactions: [TransactionModel] {
         let sortedTransactions = orderDescending ? transactions.sorted(by: { $0.date < $1.date }) : transactions.sorted(by: { $0.date > $1.date })
         guard filterMinimum > 0 else {
             return sortedTransactions
@@ -56,7 +62,7 @@ struct HomeView: View {
         VStack {
             Spacer()
             NavigationLink {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             } label: {
                 Text("+")
                     .font(.largeTitle)
@@ -140,10 +146,10 @@ struct HomeView: View {
             })
             .navigationTitle("Income")
             .navigationDestination(item: $transactionToEdit, destination: { transactionToEdit in
-                AddTransactionView(transactions: $transactions, transactionToEdit: transactionToEdit)
+               EditTransactionView(transactionToEdit: transactionToEdit)
             })
             .navigationDestination(isPresented: $showAddTransactionView, destination: {
-                AddTransactionView(transactions: $transactions)
+                AddTransactionView()
             })
             .toolbar {
                 ToolbarItem(placement: .topBarTrailing) {
@@ -159,13 +165,13 @@ struct HomeView: View {
     }
     
     private func delete(at offsets: IndexSet) {
-        transactions.remove(atOffsets: offsets)
+        // transactions.remove(atOffsets: offsets)
     }
     
 }
 
-#Preview {
-    HomeView()
-}
+//#Preview {
+//    HomeView()
+//}
 
 
